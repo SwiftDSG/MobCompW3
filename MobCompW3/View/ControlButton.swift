@@ -8,13 +8,28 @@
 import SwiftUI
 
 struct ControlButton: View {
+    @ObservedObject var calculator: Calculator
     let kind: ControlButtonKind
     
     var dimension = (UIScreen.main.bounds.size.width - 70) / 4
     
     var body: some View {
         Button {
-            
+            switch kind {
+            case let .Number(number, _):
+                if number == "." {
+                    calculator.add_input_point()
+                } else {
+                    calculator.add_input_number(number: number)
+                }
+            case let .Operator(name, _):
+                calculator.calculate(final: true)
+                calculator.add_operator(name: name)
+            case .Clear:
+                calculator.clear()
+            case .Equal:
+                calculator.calculate(final: true)
+            }
         } label: {
             switch kind {
             case let .Number(word, extended):
@@ -23,15 +38,15 @@ struct ControlButton: View {
                     .foregroundColor(.white)
                     .frame(width: extended ? dimension * 2 + 10 : dimension, height: dimension)
                     .background(.gray, in: Capsule())
-            case let .Operator(icon):
-                Image(icon)
+            case let .Operator(name, selected):
+                Image(name)
                     .resizable()
                     .scaledToFit()
                     .padding(.all, 7.5)
                     .frame(width: dimension, height: dimension)
-                    .background(Color(red: 1.0, green: 0.851, blue: 0.459), in: Capsule())
+                    .background(Color(red: 1.0, green: 0.851, blue: 0.459, opacity: selected ? 0.75 : 1.0), in: Capsule())
             case .Clear:
-                Text("AC")
+                Text(calculator.input == "0" ? "AC" : "C")
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
@@ -51,7 +66,7 @@ struct ControlButton: View {
 
 enum ControlButtonKind {
     case Number(String, Bool)
-    case Operator(String)
+    case Operator(String, Bool)
     case Clear
     case Equal
 }
@@ -68,8 +83,8 @@ struct ControlButton_Previews: PreviewProvider {
             
             Spacer()
             
-            ControlButton(kind: ControlButtonKind.Operator("root"))
-            ControlButton(kind: ControlButtonKind.Clear)
+            ControlButton(calculator: calculator, kind: ControlButtonKind.Operator("root", true))
+            ControlButton(calculator: calculator, kind: ControlButtonKind.Clear)
             
             Spacer()
         }

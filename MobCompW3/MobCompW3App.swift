@@ -11,7 +11,7 @@ import SwiftUI
 struct MobCompW3App: App {
     var body: some Scene {
         WindowGroup {
-            Content()
+            Content(calculator: calculator)
         }
     }
 }
