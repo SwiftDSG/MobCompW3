@@ -55,9 +55,9 @@ struct Content: View {
             HStack {
                 ControlButton(kind: ControlButtonKind.Number("0", true))
                 Spacer()
-                ControlButton(kind: ControlButtonKind.Number(",", false))
+                ControlButton(kind: ControlButtonKind.Number(".", false))
                 Spacer()
-                ControlButton(kind: ControlButtonKind.Operator("equal"))
+                ControlButton(kind: ControlButtonKind.Equal)
             }
         }
         .padding(/*@START_MENU_TOKEN@*/.all, 20.0/*@END_MENU_TOKEN@*/)

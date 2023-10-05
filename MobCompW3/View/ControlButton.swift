@@ -29,15 +29,21 @@ struct ControlButton: View {
                     .scaledToFit()
                     .padding(.all, 7.5)
                     .frame(width: dimension, height: dimension)
-                    .background(Color(red: 1.0, green: 0.953, blue: 0.459), in: Capsule())
-                    
+                    .background(Color(red: 1.0, green: 0.851, blue: 0.459), in: Capsule())
             case .Clear:
                 Text("AC")
                     .font(.title)
                     .fontWeight(.bold)
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
                     .frame(width: dimension, height: dimension)
-                    .background(Color(red: 1.0, green: 0.953, blue: 0.459, opacity: 0.75), in: Capsule())
+                    .background(Color(hue: 0.001, saturation: 0.621, brightness: 0.958, opacity: 0.75), in: Capsule())
+            case .Equal:
+                Image("equal")
+                    .resizable()
+                    .scaledToFit()
+                    .padding(.all, 7.5)
+                    .frame(width: dimension, height: dimension)
+                    .background(.white, in: Capsule())
             }
         }
     }
@@ -47,12 +53,26 @@ enum ControlButtonKind {
     case Number(String, Bool)
     case Operator(String)
     case Clear
+    case Equal
 }
 
 
 struct ControlButton_Previews: PreviewProvider {
     static let keywords = ["1", "2"]
     static var previews: some View {
-        ControlButton(kind: ControlButtonKind.Operator("root"))
+        
+        VStack {
+            HStack {
+                Spacer()
+            }
+            
+            Spacer()
+            
+            ControlButton(kind: ControlButtonKind.Operator("root"))
+            ControlButton(kind: ControlButtonKind.Clear)
+            
+            Spacer()
+        }
+        .background(.black)
     }
 }
