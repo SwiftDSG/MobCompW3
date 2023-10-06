@@ -23,12 +23,12 @@ struct ControlButton: View {
                     calculator.add_input_number(number: number)
                 }
             case let .Operator(name, _):
-                calculator.calculate(final: true)
+                calculator.calculate(kind: CalculatorCalculateKind.Normal)
                 calculator.add_operator(name: name)
             case .Clear:
                 calculator.clear()
             case .Equal:
-                calculator.calculate(final: true)
+                calculator.calculate(kind: CalculatorCalculateKind.Equal)
             }
         } label: {
             switch kind {
